@@ -1,11 +1,86 @@
 package vocabularystudy.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import vocabularystudy.config.SecurityConfig;
+import vocabularystudy.model.Category;
+import vocabularystudy.model.LearnPlan;
+import vocabularystudy.model.User;
+import vocabularystudy.repository.CategoryRepository;
+import vocabularystudy.repository.LearnPlanRepository;
+import vocabularystudy.repository.LearnWordHistoryRepository;
+import vocabularystudy.repository.VocabularyRepository;
+
+import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/plan")
 public class LearnPlanController
 {
+    @Autowired
+    private LearnPlanRepository learnPlanRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private VocabularyRepository vocabularyRepository;
+
+    @Autowired
+    private LearnWordHistoryRepository learnWordHistoryRepository;
+
+    @RequestMapping(value = "/learnPlanPage", method = RequestMethod.GET)
+    public String learnPlanPage(Model model, HttpSession session)
+    {
+        User user = (User) session.getAttribute(SecurityConfig.SESSION_KEY);
+        LearnPlan plan = learnPlanRepository.getLearnPlan(user);
+        List<Category> categoryList = null;
+        List<Long> totalAmountList = null;
+        Long total = null;
+        Long learned = null;
+
+        if(plan == null)
+        {
+            categoryList = categoryRepository.findAll();
+            totalAmountList = new LinkedList<>();
+
+            for(Category category : categoryList)
+                totalAmountList.add(vocabularyRepository.count(category));
+        }
+        else
+        {
+            total = vocabularyRepository.count(plan.getCategory());
+            learned = learnWordHistoryRepository.count(plan.getUser(), plan.getCategory());
+        }
+
+        model.addAttribute("learnPlan", plan);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("totalAmountList", totalAmountList);
+        model.addAttribute("total", total);
+        model.addAttribute("learned", learned);
+
+        return "plan/plan";
+    }
+
+    @RequestMapping(value = "/addPlan/", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity addPlan(HttpSession session)
+    {
+        User user = (User) session.getAttribute(SecurityConfig.SESSION_KEY);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/removePlan", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity removePlan(HttpSession session)
+    {
+
+        return null;
+    }
 }
