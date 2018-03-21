@@ -14,7 +14,6 @@ import vocabularystudy.model.LearnPlan;
 import vocabularystudy.model.LearnWordHistory;
 import vocabularystudy.model.User;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

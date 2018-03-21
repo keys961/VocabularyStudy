@@ -62,7 +62,7 @@
                                     <a href="<c:url value="/user/password"/>">更改密码</a>
                                 </li>
                                 <li>
-                                    <a href="#">选择学习单词集</a>
+                                    <a href="<c:url value="/plan/learnPlanPage"/>">选择学习单词集</a>
                                 </li>
                                 <li>
                                     <a href="<c:url value="/user/profile"/>">查看个人学习&学习进度</a>
@@ -71,7 +71,7 @@
                                     <a href="#">查看自定义收藏单词</a>
                                 </li>
                                 <li>
-                                    <a href="#">查看测验记录</a>
+                                    <a href="#">测验</a>
                                 </li>
                                 <li class="divider">
                                 </li>

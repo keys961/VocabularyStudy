@@ -34,7 +34,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <p>当前您没有正在学习的单词集.</p>
-                                    <a href="#"><button class="btn btn-primary">点此开始学习!</button></a>
+                                    <a href="<c:url value="/plan/learnPlanPage"/>"><button class="btn btn-primary">点此开始学习!</button></a>
                                 </c:otherwise>
                             </c:choose>
                             <%}%>
