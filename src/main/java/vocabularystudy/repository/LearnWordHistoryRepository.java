@@ -70,6 +70,39 @@ public class LearnWordHistoryRepository
         return learnWordHistoryList;
     }
 
+    @SuppressWarnings("unchecked")
+    public List<LearnWordHistory> getLatestHistoryList(User user, Category category, Long count, Long offset)
+    {
+        Session session = getCurrentSession();
+        List<LearnWordHistory> learnWordHistoryList = session.createCriteria(LearnWordHistory.class)
+                .add(Restrictions.eq("user", user))
+                .add(Restrictions.eq("category", category))
+                .addOrder(Order.desc("learnTime"))
+                .setFirstResult(offset.intValue())
+                .setMaxResults(count.intValue()).list();
+
+        if(learnWordHistoryList == null)
+            return new LinkedList<>();
+
+        return learnWordHistoryList;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<LearnWordHistory> getLatestHistoryList(User user, Long count, Long offset)
+    {
+        Session session = getCurrentSession();
+        List<LearnWordHistory> learnWordHistoryList = session.createCriteria(LearnWordHistory.class)
+                .add(Restrictions.eq("user", user))
+                .addOrder(Order.desc("learnTime"))
+                .setFirstResult(offset.intValue())
+                .setMaxResults(count.intValue()).list();
+
+        if(learnWordHistoryList == null)
+            return new LinkedList<>();
+
+        return learnWordHistoryList;
+    }
+
     @Cacheable("learnWordHistoryCache")
     public Long count(User user, Category category)
     {

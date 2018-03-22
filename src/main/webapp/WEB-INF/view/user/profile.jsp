@@ -38,13 +38,100 @@
                                 </c:forEach>
                             </div>
                         </div>
+                        <h1>已学单词</h1>
+                        <div>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>单词</th>
+                                    <th>类别</th>
+                                    <th>学习时间</th>
+                                </tr>
+                                </thead>
+                                <tbody class="history">
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="btn btn-info" style="position:fixed; right:10px; bottom:10px;" id="toTop">返回顶部</div>
+
     <%@ include file="../include/footer.jsp" %>
     <%@ include file="../include/script.jsp" %>
+
+    <script type="text/javascript">
+        $(document).ready
+        (
+            function ()
+            {
+                var offset = 0; //global vars..
+                $.get //init load
+                (
+                    "/learnedHistory/total/0",
+                    function (result)
+                    {
+                        $("#history").empty();
+                        for(let i = 0; i < result.length; i++)
+                        {
+                            let appendText = getItem(result[i]);
+                            $("#history").append(appendText);
+                        }
+                        offset += result.length;
+                    }
+                );
+
+
+                $(window).scroll
+                (
+                    function ()
+                    {
+                        var scrollTop = $(this).scrollTop();
+                        var scrollHeight = $(document).height();
+                        var clientHeight = $(this).height();
+                        if(scrollTop + clientHeight + 10 >= scrollHeight)
+                        {
+                            $.get
+                            (
+                                "/learnedHistory/total/" + offset,
+                                function (result)
+                                {
+                                    for(let i = 0; i < result.length; i++)
+                                    {
+                                        let appendText = getItem(result[i]);
+                                        $("#news-list").append(appendText);
+                                    }
+
+                                    offset += result.length;
+                                }
+                            )
+                        }
+                    }
+                );
+
+                $("#toTop").click
+                (
+                    function ()
+                    {
+                        $("html,body").animate({scrollTop: 0}, 500);
+                    }
+                );
+            }
+        );
+
+        function getItem(item)
+        {
+            let word = item.word.word;
+            let tag = item.category.category;
+            let time = item.learnTime;
+
+            return "<tr><td>" + word + "<td><td>" + tag + "<td><td>" + time + "<td><tr>";
+        }
+
+    </script>
 </body>
 </html>

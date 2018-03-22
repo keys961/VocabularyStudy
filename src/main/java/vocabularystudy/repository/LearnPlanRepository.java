@@ -33,8 +33,7 @@ public class LearnPlanRepository
         return sessionFactory.getCurrentSession();
     }
 
-    @CachePut(value = "userCache", key = "#result.user", condition = "#root.target != null",
-            unless = "#result == null")
+
     public LearnPlan save(LearnPlan plan)
     {
         Session session = getCurrentSession();
@@ -48,8 +47,7 @@ public class LearnPlanRepository
         return p;
     }
 
-    @CachePut(value = "userCache", key = "#result.user", condition = "#root.target != null",
-            unless = "#result == null")
+
     public LearnPlan update(LearnPlan plan)
     {
         getCurrentSession().update(plan);
@@ -57,7 +55,7 @@ public class LearnPlanRepository
         return plan;
     }
 
-    @CacheEvict(value = "userCache")
+
     @SuppressWarnings("unchecked")
     public void delete(LearnPlan plan)
     {
@@ -72,7 +70,6 @@ public class LearnPlanRepository
         session.flush();
     }
 
-    @Cacheable("learnPlanCache")
     @SuppressWarnings("unchecked")
     public LearnPlan getLearnPlan(User user)
     {

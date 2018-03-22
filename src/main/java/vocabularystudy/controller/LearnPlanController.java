@@ -1,6 +1,7 @@
 package vocabularystudy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import vocabularystudy.repository.LearnWordHistoryRepository;
 import vocabularystudy.repository.VocabularyRepository;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,17 +72,37 @@ public class LearnPlanController
     }
 
     @RequestMapping(value = "/addPlan/", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity addPlan(HttpSession session)
+    public ResponseEntity addPlan(Long categoryId, String date, HttpSession session)
     {
         User user = (User) session.getAttribute(SecurityConfig.SESSION_KEY);
+        Category category = categoryRepository.find(categoryId);
+        if(category == null)
+            return ResponseEntity.notFound().build();
+
+        Date endTime = Date.valueOf(date);
+        Date startTime = new Date(System.currentTimeMillis());
+        LearnPlan plan = new LearnPlan();
+        plan.setUser(user);
+        plan.setCategory(category);
+        plan.setStartTime(startTime);
+        plan.setEndTime(endTime);
+
+        plan = learnPlanRepository.save(plan);
+
+        if(plan == null)
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 
         return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "/removePlan", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity removePlan(HttpSession session)
+    public ResponseEntity removePlan(Long categoryId, HttpSession session)
     {
-
-        return null;
+        User user = (User) session.getAttribute(SecurityConfig.SESSION_KEY);
+        LearnPlan plan = learnPlanRepository.getLearnPlan(user);
+        if(plan == null)
+            return ResponseEntity.notFound().build();
+        learnPlanRepository.delete(plan);
+        return ResponseEntity.ok().build();
     }
 }

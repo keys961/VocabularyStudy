@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import vocabularystudy.config.SecurityConfig;
 import vocabularystudy.model.Category;
 import vocabularystudy.model.LearnPlan;
+import vocabularystudy.model.LearnTask;
 import vocabularystudy.model.User;
 import vocabularystudy.repository.LearnPlanRepository;
 import vocabularystudy.repository.LearnWordHistoryRepository;
 import vocabularystudy.repository.VocabularyRepository;
+import vocabularystudy.util.LearnTaskUtil;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
+import java.sql.Date;
 
 @Controller
 @RequestMapping(value = "/")
@@ -26,8 +28,6 @@ public class MainController
     private final LearnWordHistoryRepository learnWordHistoryRepository;
 
     private final VocabularyRepository vocabularyRepository;
-
-    private final ThreadLocal<Date> dateThreadLocal = ThreadLocal.withInitial(() -> new Date());
 
     @Autowired
     public MainController(LearnPlanRepository learnPlanRepository, LearnWordHistoryRepository learnWordHistoryRepository, VocabularyRepository vocabularyRepository)
@@ -63,7 +63,13 @@ public class MainController
 
     private Long getTodayLearnCount(User user, Category category)
     {
-        //TODO
-        return 0L;
+        LearnPlan plan = learnPlanRepository.getLearnPlan(user);
+        if(plan == null)
+            return 0L;
+
+        Long totalAmount = vocabularyRepository.count(category);
+        Long learnedAmount = learnWordHistoryRepository.count(user, category);
+        Date endDate = plan.getEndTime();
+        return LearnTaskUtil.getTodayTaskAmount(endDate, totalAmount - learnedAmount);
     }
 }
