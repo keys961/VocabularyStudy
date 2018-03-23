@@ -88,7 +88,7 @@ public class LearnWordHistoryRepository
     }
 
     @SuppressWarnings("unchecked")
-    public List<LearnWordHistory> getLatestHistoryList(User user, Long count, Long offset)
+    public List<LearnWordHistory> getLatestHistoryList(User user, Long offset, Long count)
     {
         Session session = getCurrentSession();
         List<LearnWordHistory> learnWordHistoryList = session.createCriteria(LearnWordHistory.class)

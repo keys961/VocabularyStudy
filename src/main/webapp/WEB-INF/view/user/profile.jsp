@@ -75,11 +75,11 @@
                     "/learnedHistory/total/0",
                     function (result)
                     {
-                        $("#history").empty();
+                        $(".history").empty();
                         for(let i = 0; i < result.length; i++)
                         {
                             let appendText = getItem(result[i]);
-                            $("#history").append(appendText);
+                            $(".history").append(appendText);
                         }
                         offset += result.length;
                     }
@@ -103,7 +103,7 @@
                                     for(let i = 0; i < result.length; i++)
                                     {
                                         let appendText = getItem(result[i]);
-                                        $("#news-list").append(appendText);
+                                        $(".history").append(appendText);
                                     }
 
                                     offset += result.length;
@@ -127,9 +127,11 @@
         {
             let word = item.word.word;
             let tag = item.category.category;
-            let time = item.learnTime;
+            let date =  new Date(item.learnTime);
 
-            return "<tr><td>" + word + "<td><td>" + tag + "<td><td>" + time + "<td><tr>";
+            let time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDay();
+
+            return "<tr><td><a href='/vocabulary/"+ item.word.id + "'>" + word + "</a></td><td>" + tag + "</td><td>" + time + "</td></tr>";
         }
 
     </script>
