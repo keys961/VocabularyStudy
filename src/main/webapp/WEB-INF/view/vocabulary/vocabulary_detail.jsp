@@ -29,7 +29,14 @@
                         <p class="glyphicon glyphicon-tags"> 发音: ${word.phonetic} </p><br>
                         <p class="glyphicon glyphicon-tags"> 释义: <br><br> ${word.translation} </p><br>
                         <p class="glyphicon glyphicon-tags"> 类别标签: ${word.tag} </p><br>
-                        <button id="collection" class="btn btn-primary">点击收藏</button>
+                        <c:choose>
+                            <c:when test="${isCollected}">
+                                <button id="collection" class="btn btn-success">取消收藏</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button id="collection" class="btn btn-primary">点击收藏</button>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
@@ -38,6 +45,50 @@
 
     <%@ include file="../include/footer.jsp" %>
     <%@ include file="../include/script.jsp" %>
+
+    <script type="text/javascript">
+        $(document).ready
+        (
+           function ()
+           {
+              let vocabularyId = ${word.id};
+              $("#collection").click
+              (
+                function ()
+                {
+                    if($("#collection").text() == "点击收藏")
+                    {
+                        $.post
+                        (
+                            "<c:url value="/collection/add"/>",
+                            {id: vocabularyId},
+                            function ()
+                            {
+                                alert("收藏成功!");
+                                $("#collection").text("取消收藏");
+                                $("#collection").attr("class", "btn btn-success");
+                            }
+                        )
+                    }
+                    else
+                    {
+                        $.post
+                        (
+                            "<c:url value="/collection/remove"/>",
+                            {id: vocabularyId},
+                            function ()
+                            {
+                                alert("取消收藏成功!");
+                                $("#collection").text("点击收藏");
+                                $("#collection").attr("class", "btn btn-primary");
+                            }
+                        )
+                    }
+                }
+              );
+           }
+        );
+    </script>
 
 </body>
 </html>

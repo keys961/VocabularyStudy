@@ -68,7 +68,7 @@
                                     <a href="<c:url value="/user/profile"/>">查看个人学习&学习进度</a>
                                 </li>
                                 <li>
-                                    <a href="#">查看自定义收藏单词</a>
+                                    <a href="<c:url value="/collection/page"/>">查看自定义收藏单词</a>
                                 </li>
                                 <li>
                                     <a href="#">测验</a>
