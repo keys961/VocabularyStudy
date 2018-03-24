@@ -55,6 +55,22 @@ public class LearnWordHistoryRepository
     }
 
     @SuppressWarnings("unchecked")
+    public List<LearnWordHistory> getLatestHistoryList(User user, Category category)
+    {
+        Session session = getCurrentSession();
+        List<LearnWordHistory> learnWordHistoryList = session.createCriteria(LearnWordHistory.class)
+                .add(Restrictions.eq("user", user))
+                .add(Restrictions.eq("category", category))
+                .addOrder(Order.desc("learnTime"))
+                .list();
+
+        if(learnWordHistoryList == null)
+            return new LinkedList<>();
+
+        return learnWordHistoryList;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<LearnWordHistory> getLatestHistoryList(User user, Category category, Long count)
     {
         Session session = getCurrentSession();

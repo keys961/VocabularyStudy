@@ -42,4 +42,16 @@ public class Category
     {
         this.category = category;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj instanceof Category && ((Category) obj).id.equals(this.id);
+    }
 }

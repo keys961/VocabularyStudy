@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: keys9
   Date: 2018/3/24 0024
-  Time: 10:14
+  Time: 18:35
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,7 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>个人收藏</title>
+    <title>测验记录</title>
 </head>
 <body>
 <%@ include file="../include/header.jsp" %>
@@ -23,20 +23,20 @@
             <div class="container">
                 <div class="jumbotron">
                     <div class="container">
-                        <h1>个人收藏管理</h1>
+                        <h1>测验记录</h1>
                         <hr>
                         <br>
-                        <p><button id="remove" class="btn btn-danger">删除勾选的单词</button></p>
                         <div class="row">
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>.</th>
-                                    <th>单词</th>
-                                    <th>类别</th>
+                                    <th>测验号</th>
+                                    <th>测验单词集</th>
+                                    <th>您的分数</th>
+                                    <th>总分</th>
                                 </tr>
                                 </thead>
-                                <tbody id="collection">
+                                <tbody id="testHistory">
                                 </tbody>
                             </table>
                         </div>
@@ -59,14 +59,14 @@
                 var offset = 0; //global vars..
                 $.get //init load
                 (
-                    "/collection/get/0",
+                    "/test/history/0",
                     function (result)
                     {
-                        $("#collection").empty();
+                        $("#testHistory").empty();
                         for(let i = 0; i < result.length; i++)
                         {
                             let appendText = getItem(result[i]);
-                            $("#collection").append(appendText);
+                            $("#testHistory").append(appendText);
                         }
                         offset += result.length;
                     }
@@ -84,13 +84,13 @@
                         {
                             $.get
                             (
-                                "/collection/get/" + offset,
+                                "/test/history/" + offset,
                                 function (result)
                                 {
                                     for(let i = 0; i < result.length; i++)
                                     {
                                         let appendText = getItem(result[i]);
-                                        $("#collection").append(appendText);
+                                        $("#testHistory").append(appendText);
                                     }
 
                                     offset += result.length;
@@ -107,59 +107,20 @@
                         $("html,body").animate({scrollTop: 0}, 500);
                     }
                 );
-
-                $("#remove").click
-                (
-                  function ()
-                  {
-                      let collectionList = [];
-
-                      $.each
-                      (
-                          $('input:checkbox:checked'),
-                          function()
-                          {
-                              collectionList.push(this.id);
-                          }
-                      );
-
-                      $.ajax
-                      (
-                        {
-                              type: "POST",
-                              url: "<c:url value='/collection/removeList'/>",
-                              data: JSON.stringify(collectionList),
-                              datatype: "json",
-                              contentType: "application/json;charset=UTF-8",
-                              success:
-                                function ()
-                                {
-                                    alert("删除成功!");
-                                    window.location.href = "<c:url value="/collection/page"/>";
-                                },
-                              error:
-                                function()
-                                {
-                                    alert("删除失败!");
-                                }
-                        }
-                      );
-                  }
-                );
             }
         );
 
         function getItem(item)
         {
             let id = item.id;
-            let word = item.word.word;
-            let tag = item.word.tag;
+            let category = item.category.category;
+            let score = item.score;
+            let totalScore = item.totalScore;
 
-            let result = "<tr><td><input type='checkbox' class='check-box' id='" + id + "'/></td>"
-                    + "<td><a href='/vocabulary/" + item.word.id + "'>" + word + "</a></td>"
-                    + "<td>" + tag + "</td></tr>";
-
-            return result;
+            return "<tr><td>"+ id +"</td>"
+                + "<td>" + category + "</td>"
+                + "<td>" + score + "</td>" +
+                "<td>" + totalScore + "</td></tr>";
         }
 
     </script>

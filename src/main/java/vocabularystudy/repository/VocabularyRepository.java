@@ -2,6 +2,7 @@ package vocabularystudy.repository;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,18 @@ public class VocabularyRepository
         return (List<Vocabulary>) session.createCriteria(Vocabulary.class)
                 .setFirstResult(offset.intValue())
                 .setMaxResults(count.intValue())
+                .list();
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public List<Long> getWordIdList(Category category)
+    {
+        Session session = getCurrentSession();
+
+        return  session.createCriteria(Vocabulary.class)
+                .add(Restrictions.eq("category", category))
+                .setProjection(Projections.property("id"))
                 .list();
     }
 

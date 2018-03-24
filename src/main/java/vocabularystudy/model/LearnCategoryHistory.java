@@ -13,6 +13,46 @@ public class LearnCategoryHistory
     @JoinColumn(name = "user")
     private User user;
 
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    public Category getCategory()
+    {
+        return category;
+    }
+
+    public void setCategory(Category category)
+    {
+        this.category = category;
+    }
+
+    public Date getLearnTime()
+    {
+        return learnTime;
+    }
+
+    public void setLearnTime(Date learnTime)
+    {
+        this.learnTime = learnTime;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category")
     private Category category;

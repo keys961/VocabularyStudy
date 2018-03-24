@@ -114,7 +114,7 @@
                                 categoryId: <c:out value="${categoryList.get(i).id}"/>,
                                 date: date
                             },
-                            function ()
+                            function (result)
                             {
                                 alert("添加计划成功!");
                                 window.location.href = "<c:url value='/plan/learnPlanPage'/>";

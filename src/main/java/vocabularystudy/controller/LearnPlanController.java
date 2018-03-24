@@ -9,13 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import vocabularystudy.config.SecurityConfig;
-import vocabularystudy.model.Category;
-import vocabularystudy.model.LearnPlan;
-import vocabularystudy.model.User;
-import vocabularystudy.repository.CategoryRepository;
-import vocabularystudy.repository.LearnPlanRepository;
-import vocabularystudy.repository.LearnWordHistoryRepository;
-import vocabularystudy.repository.VocabularyRepository;
+import vocabularystudy.model.*;
+import vocabularystudy.repository.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
@@ -37,6 +32,9 @@ public class LearnPlanController
 
     @Autowired
     private LearnWordHistoryRepository learnWordHistoryRepository;
+
+    @Autowired
+    private LearnCategoryHistoryRepository learnCategoryHistoryRepository;
 
     @RequestMapping(value = "/learnPlanPage", method = RequestMethod.GET)
     public String learnPlanPage(Model model, HttpSession session)
@@ -79,6 +77,12 @@ public class LearnPlanController
         if(category == null)
             return ResponseEntity.notFound().build();
 
+        if(learnPlanRepository.exist(user, category))
+            return ResponseEntity.ok().build();
+
+        if(learnCategoryHistoryRepository.exist(user, category))
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
         Date endTime = Date.valueOf(date);
         Date startTime = new Date(System.currentTimeMillis());
         LearnPlan plan = new LearnPlan();
@@ -103,6 +107,9 @@ public class LearnPlanController
         if(plan == null)
             return ResponseEntity.notFound().build();
         learnPlanRepository.delete(plan);
+        List<LearnWordHistory> histories = learnWordHistoryRepository.getLatestHistoryList(user, plan.getCategory());
+        for(LearnWordHistory history : histories)
+            learnWordHistoryRepository.delete(history);
         return ResponseEntity.ok().build();
     }
 }

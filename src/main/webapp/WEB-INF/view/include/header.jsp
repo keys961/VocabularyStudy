@@ -71,7 +71,7 @@
                                     <a href="<c:url value="/collection/page"/>">查看自定义收藏单词</a>
                                 </li>
                                 <li>
-                                    <a href="#">测验</a>
+                                    <a href="<c:url value="/test/main"/>">测验</a>
                                 </li>
                                 <li class="divider">
                                 </li>

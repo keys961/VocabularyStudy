@@ -1,12 +1,14 @@
-package repository;
-
+package service;
 import static org.junit.Assert.*;
+
+import org.junit.Assert;
 import vocabularystudy.config.RootConfig;
 import vocabularystudy.model.Category;
 import vocabularystudy.model.User;
 import vocabularystudy.repository.CategoryRepository;
 import vocabularystudy.repository.UserRepository;
 import vocabularystudy.repository.VocabularyRepository;
+import vocabularystudy.service.TestService;
 import vocabularystudy.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,28 +20,15 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = RootConfig.class)
-public class VocabularyRepositoryTest
+public class TestServiceTest
 {
     @Autowired
-    private VocabularyRepository vocabularyRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private TestService service;
 
     @Test
-    public void countTest()
+    public void test()
     {
-        List<Category> categoryList = categoryRepository.findAll();
-
-        for(Category category : categoryList)
-            System.out.println(category.getCategory() + ": " +vocabularyRepository.count(category));
-    }
-
-    @Test
-    public void idSetTest()
-    {
-        List longList = vocabularyRepository.getWordIdList(categoryRepository.find(1L));
-
-        assertNotNull(longList);
+        TestService.Test test = service.generateTest(1L, 30);
+        assertNotNull(test);
     }
 }
