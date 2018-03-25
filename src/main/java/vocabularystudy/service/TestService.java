@@ -38,7 +38,7 @@ public class TestService
             vocabularyIdMap.put(category, vocabularyRepository.getWordIdList(category));
     }
 
-    public class Problem
+    public static class Problem
     {
         private String problem;
 
@@ -82,7 +82,7 @@ public class TestService
         }
     }
 
-    public class Test
+    public static class Test
     {
         private Category category;
 
@@ -142,6 +142,9 @@ public class TestService
         Test test = new Test();
 
         Category category = categoryRepository.find(categoryId);
+        if(category == null)
+            return null;
+
         test.setCategory(category);
         test.setTotalScore(amount);
         test.setAnswerList(new ArrayList<>(amount));
@@ -230,7 +233,7 @@ public class TestService
 
         for(int i = 0; i < answerList.size(); i++)
         {
-            if(answerList.get(i).equals(problemList.get(i).getCorrectOption()))
+            if((problemList.get(i).getCorrectOption()) == answerList.get(i))
                 result++;
         }
 

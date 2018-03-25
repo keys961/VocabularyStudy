@@ -27,7 +27,6 @@ public class SecurityConfig extends WebMvcConfigurerAdapter
     public void addInterceptors(InterceptorRegistry registry)
     {
         InterceptorRegistration registration = registry.addInterceptor(securityInterceptor());
-        //TODO:
         registration.excludePathPatterns("/**");
     }
 
@@ -41,7 +40,6 @@ public class SecurityConfig extends WebMvcConfigurerAdapter
 
             if(session.getAttribute(SESSION_KEY) == null)
             {
-                //TODO
                 response.sendRedirect("/user/login/");//to login
                 return false;
             }
