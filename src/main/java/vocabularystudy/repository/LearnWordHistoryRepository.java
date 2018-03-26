@@ -6,6 +6,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class LearnWordHistoryRepository
         return sessionFactory.getCurrentSession();
     }
 
+    @CacheEvict(value = "learnWordHistoryCache", key = "(#history.user.hashCode()) ^ (#history.category.hashCode() * 65536)")
     public LearnWordHistory save(LearnWordHistory history)
     {
         Session session = getCurrentSession();
@@ -49,6 +51,7 @@ public class LearnWordHistoryRepository
         return h;
     }
 
+    @CacheEvict(value = "learnWordHistoryCache", key = "(#history.user.hashCode()) ^ (#history.category.hashCode() * 65536)")
     public void delete(LearnWordHistory history)
     {
         getCurrentSession().delete(history);
@@ -119,7 +122,7 @@ public class LearnWordHistoryRepository
         return learnWordHistoryList;
     }
 
-    @Cacheable("learnWordHistoryCache")
+    @Cacheable(value = "learnWordHistoryCache", key = "(#user.hashCode()) ^ (#category.hashCode() * 65536)")
     public Long count(User user, Category category)
     {
         Session session = getCurrentSession();
@@ -130,7 +133,7 @@ public class LearnWordHistoryRepository
                 .list().get(0);
     }
 
-    @Cacheable("learnWordHistoryCache")
+    @Cacheable(value = "learnWordHistoryCache", key = "(#plan.user.hashCode()) ^ (#plan.category.hashCode() * 65536)")
     public Long count(LearnPlan plan)
     {
         return count(plan.getUser(), plan.getCategory());

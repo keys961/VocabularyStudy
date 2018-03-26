@@ -10,9 +10,14 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import vocabularystudy.model.Category;
+import vocabularystudy.model.LearnWordHistory;
+import vocabularystudy.model.User;
 import vocabularystudy.model.Vocabulary;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Transactional
 @Repository
@@ -72,6 +77,44 @@ public class VocabularyRepository
 
         return (List<Vocabulary>) session.createCriteria(Vocabulary.class)
                 .setFirstResult(offset.intValue())
+                .setMaxResults(count.intValue())
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Long> getWordIdList(Category category, Long offset, Long count)
+    {
+        Session session = getCurrentSession();
+
+        List<Long> list = session.createCriteria(Vocabulary.class)
+                .add(Restrictions.eq("category", category))
+                .setProjection(Projections.property("id"))
+                .setFirstResult(offset.intValue())
+                .setMaxResults(count.intValue())
+                .list();
+
+        if(list == null)
+            return new ArrayList<>(1);
+        return list;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Vocabulary> getWordListNotLearned(User user, Category category, Long count)
+    {
+        Session session = getCurrentSession();
+        List<Vocabulary> learnedWordList = session.createCriteria(LearnWordHistory.class)
+                .add(Restrictions.eq("category", category))
+                .add(Restrictions.eq("user", user))
+                .setProjection(Projections.property("word"))
+                .list();
+
+        Set<Long> learnedSet = new HashSet<>();
+        for(Vocabulary vocabulary : learnedWordList)
+            learnedSet.add(vocabulary.getId());
+
+        return session.createCriteria(Vocabulary.class)
+                .add(Restrictions.eq("category", category))
+                .add(Restrictions.not(Restrictions.in("id", learnedSet)))
                 .setMaxResults(count.intValue())
                 .list();
     }

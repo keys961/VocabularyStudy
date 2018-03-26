@@ -47,7 +47,6 @@ public class LearnPlanRepository
         return p;
     }
 
-
     public LearnPlan update(LearnPlan plan)
     {
         getCurrentSession().update(plan);
