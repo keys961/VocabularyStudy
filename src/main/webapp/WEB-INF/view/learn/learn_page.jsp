@@ -20,6 +20,13 @@
 
 <div class="container">
     <div class="row clearfix">
+        <div class="alert alert-dismissable alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4>
+                提示!
+            </h4>
+            <p>学习结束后请点击“结束学习”按钮，否则学习进度不会被记录！</p>
+        </div>
         <div class="col-md-3 column">
         </div>
         <div class="col-md-6 column">
