@@ -26,9 +26,9 @@
                         <h1>${word.word}</h1>
                         <hr>
                         <br>
-                        <p class="glyphicon glyphicon-tags"> 发音: ${word.phonetic} </p><br>
-                        <p class="glyphicon glyphicon-tags"> 释义: <br><br> ${word.translation} </p><br>
-                        <p class="glyphicon glyphicon-tags"> 类别标签: ${word.tag} </p><br>
+                        <p> <b>发音:</b> ${word.phonetic} </p>
+                        <p> <b>释义:</b> <br> ${word.translation} </p>
+                        <p class="glyphicon glyphicon-tags"> <b>类别标签</b>: ${word.tag} </p><br>
                         <c:choose>
                             <c:when test="${isCollected}">
                                 <button id="collection" class="btn btn-success">取消收藏</button>

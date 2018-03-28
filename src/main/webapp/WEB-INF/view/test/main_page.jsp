@@ -21,6 +21,13 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="container">
+                <div class="alert alert-dismissable alert-info">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4>
+                        提示!
+                    </h4>
+                    <p>点击下面任何一个单词集测验按钮即可开始测验！</p>
+                </div>
                 <div class="jumbotron">
                     <div class="container">
                         <h1>测验</h1>

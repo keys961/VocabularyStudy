@@ -21,6 +21,15 @@
     <div class="row clearfix">
         <div class="col-md-12 column">
             <div class="container">
+                <div class="alert alert-dismissable alert-info">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4>
+                        提示!
+                    </h4>
+                    <p>用户名长度在6~20之间，英文字母和数字且由英文开头。不得使用已注册过的用户名！</p>
+                    <p>密码长度在6~20之间。</p>
+                    <p>邮箱格式为example@domain.com，不得使用已注册过的邮箱！</p>
+                </div>
                 <div class="jumbotron">
                     <div class="container">
                         <h1>用户注册</h1>
