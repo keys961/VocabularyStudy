@@ -13,11 +13,15 @@ public class RevisionController
     @Autowired
     private RevisionService revisionService;
 
-    @RequestMapping(value = "/revise", method = RequestMethod.GET)
-    public String revisionPage()
+    @RequestMapping(value = "/recent/", method = RequestMethod.GET)
+    public String revisionRecentPage()
     {
-        return "revision/revision_page";
+        return "revision/revision_recent_page";
     }
 
-
+    @RequestMapping(value = "/all/", method = RequestMethod.GET)
+    public String revisionAllPage()
+    {
+        return "revision/revision_all_page";
+    }
 }
