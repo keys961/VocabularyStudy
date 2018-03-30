@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 @Configuration
 public class SecurityConfig extends WebMvcConfigurerAdapter
 {
-    //TODO: Security Configuration
     public static final String SESSION_KEY = "user_info";
 
     @Bean
@@ -27,7 +26,16 @@ public class SecurityConfig extends WebMvcConfigurerAdapter
     public void addInterceptors(InterceptorRegistry registry)
     {
         InterceptorRegistration registration = registry.addInterceptor(securityInterceptor());
-        registration.excludePathPatterns("/**");
+        registration.addPathPatterns("/learn/**");
+        registration.addPathPatterns("/plan/**");
+        registration.addPathPatterns("/learnedHistory/**");
+        registration.addPathPatterns("/revision/**");
+        registration.addPathPatterns("/test/**");
+        registration.addPathPatterns("/collection/**");
+        registration.addPathPatterns("/user/logout/**");
+        registration.addPathPatterns("/user/password/**");
+        registration.addPathPatterns("/user/modifyProfile/**");
+        registration.addPathPatterns("/user/profile/**");
     }
 
     private static class SecurityInterceptor extends HandlerInterceptorAdapter
