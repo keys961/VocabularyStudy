@@ -92,13 +92,13 @@
                 (
                   function ()
                   {
+                      $("#progress").text(++progress);
                       if(currentIndex + 1 === learnTaskItemList.length)
                       {
                           alert("这是最后一个单词了！请您点击结束按钮结束学习！");
                           return;
                       }
                       learnedList.push(currentIndex);
-                      $("#progress").text(++progress);
                       currentIndex++;
                       showResult(learnTaskItemList, currentIndex);
                   }

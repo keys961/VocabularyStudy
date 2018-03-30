@@ -31,6 +31,8 @@
                                     <p>当前正在学习: <c:out value="${plan.category.category}"/>, 进度: <c:out value="${learned}"/>/<c:out value="${total}"/>.</p>
                                     <p>今日要学习的单词数: ${needLearn}!</p>
                                     <a href="<c:url value="/learn/task"/>"><button class="btn btn-primary">点击继续学习!</button></a>
+                                    <a href="<c:url value="/revision/recent/"/>"><button class="btn btn-primary">复习最近学习的单词!</button></a>
+                                    <a href="<c:url value="/revision/all/"/>"><button class="btn btn-primary">复习所有单词!</button></a>
                                 </c:when>
                                 <c:otherwise>
                                     <p>当前您没有正在学习的单词集.</p>

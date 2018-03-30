@@ -72,13 +72,13 @@
         function ()
         {
             var learnTaskItemList;
-            var learnedList = [];
+            var notKnowList = [];
             var currentIndex = 0;
             var progress = 0;
-            //TODO: Front-end of revision page
+
             $.get
             (
-                "<c:url value="/learn/getLearnTask"/>",
+                "<c:url value='/revision/all/get/'/>",
                 function (result)
                 {
                     learnTaskItemList = result;
@@ -92,13 +92,12 @@
             (
                 function ()
                 {
+                    $("#progress").text(++progress);
                     if(currentIndex + 1 === learnTaskItemList.length)
                     {
-                        alert("这是最后一个单词了！请您点击结束按钮结束学习！");
+                        alert("这是最后一个单词了！请您点击结束按钮结束复习！");
                         return;
                     }
-                    learnedList.push(currentIndex);
-                    $("#progress").text(++progress);
                     currentIndex++;
                     showResult(learnTaskItemList, currentIndex);
                 }
@@ -110,10 +109,10 @@
                 {
                     if(currentIndex + 1 === learnTaskItemList.length)
                     {
-                        alert("这是最后一个单词了！请您点击结束按钮结束学习！");
+                        alert("这是最后一个单词了！请您点击结束按钮结束复习！");
                         return;
                     }
-
+                    notKnowList.push(learnTaskItemList[currentIndex]);
                     currentIndex++;
                     showResult(learnTaskItemList, currentIndex);
                 }
@@ -127,27 +126,24 @@
                     (
                         {
                             type: "POST",
-                            url: "<c:url value="/learn/save"/>",
+                            url: "<c:url value="/revision/save/"/>",
                             data:
                                 JSON.stringify
                                 (
-                                    {
-                                        learnTaskItemList : learnTaskItemList ,
-                                        learnedList : learnedList
-                                    }
+                                    notKnowList
                                 ),
                             datatype: "json",
                             contentType: "application/json;charset=UTF-8",
                             success:
                                 function ()
                                 {
-                                    alert("您的学习进度已更新!");
+                                    alert("您的复习进度已更新!");
                                     window.location.href = "<c:url value="/"/>";
                                 },
                             error:
                                 function()
                                 {
-                                    alert("学习进度提交失败!");
+                                    alert("复习进度提交失败!");
                                 }
                         }
                     );

@@ -35,10 +35,10 @@ public class RevisionService
         return learnWordHistoryRepository.getLatestHistoryList(plan.getUser(), plan.getCategory());
     }
 
-    public void saveRevisionStatus(List<LearnWordHistory> revisionList, List<Long> notKnowList)
+    public void saveRevisionStatus(List<LearnWordHistory> notKnowList)
     {
-        for(Long id : notKnowList)
-            learnWordHistoryRepository.delete(revisionList.get(id.intValue()));
+        for(LearnWordHistory item : notKnowList)
+            learnWordHistoryRepository.delete(item);
     }
 
     private Long getTaskItemNumber(LearnPlan plan)
