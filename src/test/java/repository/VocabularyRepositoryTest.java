@@ -1,6 +1,8 @@
 package repository;
 
 import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import vocabularystudy.config.RootConfig;
 import vocabularystudy.model.Category;
 import vocabularystudy.model.User;
@@ -32,6 +34,7 @@ public class VocabularyRepositoryTest
     private LearnWordHistoryRepository learnWordHistoryRepository;
 
     @Test
+    @Ignore
     public void countTest()
     {
         List<Category> categoryList = categoryRepository.findAll();
@@ -41,6 +44,7 @@ public class VocabularyRepositoryTest
     }
 
     @Test
+    @Ignore
     public void vocabularyTest()
     {
         User user = new User();
@@ -55,6 +59,7 @@ public class VocabularyRepositoryTest
     }
 
     @Test
+    @Ignore
     public void idSetTest()
     {
         List longList = vocabularyRepository.getWordIdList(categoryRepository.find(1L));
