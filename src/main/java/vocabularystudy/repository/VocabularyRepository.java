@@ -112,6 +112,12 @@ public class VocabularyRepository
         for(Vocabulary vocabulary : learnedWordList)
             learnedSet.add(vocabulary.getId());
 
+        if(learnedWordList.isEmpty())
+            return session.createCriteria(Vocabulary.class)
+                    .add(Restrictions.eq("category", category))
+                    .setMaxResults(count.intValue())
+                    .list();
+
         return session.createCriteria(Vocabulary.class)
                 .add(Restrictions.eq("category", category))
                 .add(Restrictions.not(Restrictions.in("id", learnedSet)))

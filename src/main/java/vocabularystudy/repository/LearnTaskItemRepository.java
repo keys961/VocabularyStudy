@@ -62,7 +62,13 @@ public class LearnTaskItemRepository
                 .setProjection(Projections.property("word"))
                 .list();
 
-        List<LearnTaskItem> todoList = session.createCriteria(LearnTaskItem.class)
+        List<LearnTaskItem> todoList;
+        if(learnedList.isEmpty())
+            todoList = session.createCriteria(LearnTaskItem.class)
+                    .add(Restrictions.eq("learnTask", task))
+                    .list();
+        else
+            todoList = session.createCriteria(LearnTaskItem.class)
                 .add(Restrictions.eq("learnTask", task))
                 .add(Restrictions.not(Restrictions.in("word", learnedList)))
                 .list();

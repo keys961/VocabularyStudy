@@ -1,6 +1,8 @@
 package repository;
 
 import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import vocabularystudy.config.RootConfig;
 import vocabularystudy.model.User;
 import vocabularystudy.repository.UserRepository;
@@ -21,6 +23,7 @@ public class UserRepositoryTest
     private UserRepository repository;
 
     @Test
+    @Ignore
     public void addUser()
     {
         User user = new User();
@@ -33,6 +36,7 @@ public class UserRepositoryTest
     }
 
     @Test
+    @Ignore
     public void updateUser()
     {
         User user = repository.findUser("keys961");
@@ -76,6 +80,7 @@ public class UserRepositoryTest
 //    }
 //
     @Test
+    @Ignore
     public void queryUserList()
     {
         List<User> list = repository.findAll();
@@ -84,6 +89,7 @@ public class UserRepositoryTest
     }
 //
     @Test
+    @Ignore
     public void deleteUser()
     {
         User user = repository.findUser("keys961");

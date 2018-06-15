@@ -2,6 +2,7 @@ package service;
 import static org.junit.Assert.*;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import vocabularystudy.config.RootConfig;
 import vocabularystudy.model.Category;
 import vocabularystudy.model.User;
@@ -26,6 +27,7 @@ public class TestServiceTest
     private TestService service;
 
     @Test
+    @Ignore
     public void test()
     {
         TestService.Test test = service.generateTest(1L, 30);
