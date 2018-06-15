@@ -24,7 +24,6 @@ public class UserRepositoryTest
 
     @Ignore
     @Test
-    @Ignore
     public void addUser()
     {
         User user = new User();
@@ -38,7 +37,6 @@ public class UserRepositoryTest
 
     @Ignore
     @Test
-    @Ignore
     public void updateUser()
     {
         User user = repository.findUser("keys961");
