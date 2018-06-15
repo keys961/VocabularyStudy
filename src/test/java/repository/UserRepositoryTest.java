@@ -22,6 +22,7 @@ public class UserRepositoryTest
     @Autowired
     private UserRepository repository;
 
+    @Ignore
     @Test
     @Ignore
     public void addUser()
@@ -35,6 +36,7 @@ public class UserRepositoryTest
         assertNotNull(user1);
     }
 
+    @Ignore
     @Test
     @Ignore
     public void updateUser()
@@ -78,7 +80,7 @@ public class UserRepositoryTest
 //        assertTrue(exist1);
 //        assertTrue(exist2);
 //    }
-//
+
     @Test
     @Ignore
     public void queryUserList()
