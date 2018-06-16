@@ -30,13 +30,13 @@ public class UserRepository
         return sessionFactory.getCurrentSession();
     }
 
-    @Cacheable(value = "userCache")
+    //@Cacheable(value = "userCache")
     public User findUser(Long id)
     {
         return (User) getCurrentSession().get(User.class, id);
     }
 
-    @Cacheable(value = "userCache")
+    //@Cacheable(value = "userCache")
     @SuppressWarnings("unchecked")
     public User findUser(String username)
     {
@@ -49,7 +49,7 @@ public class UserRepository
         return userList.get(0);
     }
 
-    @Cacheable(value = "userCache")
+    //@Cacheable(value = "userCache")
     @SuppressWarnings("unchecked")
     public User findUserByEmail(String email)
     {

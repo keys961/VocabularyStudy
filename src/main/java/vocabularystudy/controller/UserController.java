@@ -155,22 +155,22 @@ public class UserController
         String password = form.getPassword();
 
         if(!UserInfoUtil.isUsernameValid(username))
-            throw new UserProfileException("/user/register", "用户名格式不正确!");
+            throw new UserProfileException("/user/register", "Username format incorrect!");
         if(!UserInfoUtil.isPasswordValid(password))
-            throw new UserProfileException("/user/register", "密码格式不正确!");
+            throw new UserProfileException("/user/register", "Password format incorrect!");
         if(!UserInfoUtil.isEmailValid(email))
-            throw new UserProfileException("/user/register", "邮箱格式不正确!");
+            throw new UserProfileException("/user/register", "Email format incorrect!");
 
         User user1 = userRepository.findUser(username);
         User user2 = userRepository.findUserByEmail(email);
         if(user1 != null || user2 != null)
-            throw new UserProfileException("/user/register", "用户名/邮箱已经注册!");
+            throw new UserProfileException("/user/register", "Username/Email has already been registered!");
 
         User user = new User(username, PasswordUtil.getMessageDigest(password), email);
         User newUser = userRepository.save(user);
 
         if(newUser == null)
-            throw new UserProfileException("/user/register", "服务器内部错误,注册失败!");
+            throw new UserProfileException("/user/register", "Internal Server Error! Register failed!");
         return "redirect:/user/login";
     }
 
@@ -191,10 +191,10 @@ public class UserController
 
         User user = userRepository.findUser(username);
         if(user == null)
-            throw new UserProfileException("/user/login", "当前用户名不存在!");
+            throw new UserProfileException("/user/login", "This username doesn't exist!");
 
         if(!user.getPassword().equals(PasswordUtil.getMessageDigest(password)))
-            throw new UserProfileException("/user/login", "密码错误!");
+            throw new UserProfileException("/user/login", "Incorrect password!");
         // OK
         session.setAttribute(SecurityConfig.SESSION_KEY, user);
         session.setMaxInactiveInterval(3600 * 12);
@@ -224,13 +224,13 @@ public class UserController
     public String modifyPassword(ModifyPasswordForm form, HttpSession session) throws UserProfileException
     {
         if(form.getOriginPassword().equals(form.getNewPassword()))
-            throw new UserProfileException("/user/password", "原密码和新密码不能相同!");
+            throw new UserProfileException("/user/password", "2 passwords cannot be the same!");
 
         if(!UserInfoUtil.isPasswordValid(form.getNewPassword()))
-            throw new UserProfileException("/user/password", "新密码格式有误!");
+            throw new UserProfileException("/user/password", "New password format incorrect!");
         User user = (User)session.getAttribute(SecurityConfig.SESSION_KEY);
         if(!user.getPassword().equals(PasswordUtil.getMessageDigest(form.getOriginPassword())))
-            throw new UserProfileException("/user/password", "原密码输入不正确!");
+            throw new UserProfileException("/user/password", "Original password is not correct!");
 
         user.setPassword(PasswordUtil.getMessageDigest(form.getNewPassword()));
         userRepository.update(user);
@@ -259,11 +259,11 @@ public class UserController
     {
         User user = (User)session.getAttribute(SecurityConfig.SESSION_KEY);
         if(!UserInfoUtil.isEmailValid(form.getEmail()))
-            throw new UserProfileException("/user/modifyProfile", "邮箱格式不正确!");
+            throw new UserProfileException("/user/modifyProfile", "Email format incorrect!");
 
         User userInDb = userRepository.findUserByEmail(form.getEmail());
         if(userInDb != null && !userInDb.getId().equals(user.getId()))
-            throw new UserProfileException("/user/modifyProfile", "邮箱已被别的用户使用!");
+            throw new UserProfileException("/user/modifyProfile", "Email has been used by another user!");
 
         user.setEmail(form.getEmail());
         userRepository.update(user);
